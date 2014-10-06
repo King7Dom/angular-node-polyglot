@@ -7,7 +7,7 @@ appServices.service('User', function($location){
 
 	this.save = function (user_ID) {
 		userID = user_ID;
-		$location.path('/user/' + userID);
+		$location.path('/profile/' + userID);
 	}
 
 	this.get = function () {
