@@ -1,15 +1,18 @@
+from collections import defaultdict
+
 mongodb_gen_file = 'polymongo-gen.js'
 neo4j_gen_file = 'polyneo-gen.cql'
 
 users = set()
 mongodb_query = ''
 neo4j_query = ''
+artist_tags = defaultdict(set)
 
 # Setup gen_file
 with open(mongodb_gen_file, 'w') as gen_file:
 	print 'Setup mongdb-gen.js'
 	gen_file.write(
-		'db.artists.remove({});\n'
+		'db.Artists.remove({});\n'
 	)
 
 # Setup gen_file
@@ -29,12 +32,12 @@ with open('hetrec2011-lastfm-2k/artists.tsv', 'r') as artist_file:
 		text = line.split('\t')
 		artist_id = text[0].strip()
 		artist_name = text[1].strip().replace('\\', '\\\\').replace('\"', '\\\"').replace('\'', '\\\'')
-		artist_url = text[2].strip()
-		artist_pic_url = text[3].strip()
+		artist_url = text[2].strip().replace('\\', '\\\\').replace('\"', '\\\"').replace('\'', '\\\'')
+		artist_pic_url = text[3].strip().replace('\\', '\\\\').replace('\"', '\\\"').replace('\'', '\\\'')
 
 		# Setup artists collection in mongodb
 		mongodb_query += (
-			'db.artists.save({'
+			'db.Artists.save({'
 				'_id:' + artist_id + ','
 				'name:"' + artist_name + '",'
 				'url:"' + artist_url + '",'
@@ -44,8 +47,7 @@ with open('hetrec2011-lastfm-2k/artists.tsv', 'r') as artist_file:
 		# Setup artist node in neo4j
 		neo4j_query += (
 			'CREATE (a:Artist{id:' + artist_id + ',name:"' + artist_name + '"}) '
-			'RETURN a'
-			';\n'
+			'RETURN a;\n'
 		)
 
 
@@ -86,8 +88,7 @@ with open('hetrec2011-lastfm-2k/user_friends.tsv', 'r') as friends_file:
 			'USING INDEX u:User(id) '
 			'USING INDEX f:User(id) '
 			'CREATE UNIQUE (u)-[r:FRIENDS]-(f) '
-			'RETURN u,r,f'
-			';\n'
+			'RETURN u,r,f;\n'
 		)
 
 #load tags
@@ -112,14 +113,14 @@ with open('hetrec2011-lastfm-2k/user_taggedartists-timestamps.tsv', 'r') as user
 		timestamp = text[3].strip()
 
 		users.add(user_id)
+		artist_tags[artist_id].add(tag)
 
 		neo4j_query +=(
 				'MATCH (u:User{id:' + user_id + '}),(a:Artist{id:' + artist_id + '}) '
 				'USING INDEX u:User(id) '
 				'USING INDEX a:Artist(id) '
 				'CREATE (u)-[t:TAGGED{tag:\"' + tag + '\",timestamp:' + timestamp + '}]->(a) '
-				'RETURN u,t,a'
-				';\n'
+				'RETURN u,t,a;\n'
 			)
 
 with open(neo4j_gen_file, 'a') as gen_file:
@@ -130,4 +131,12 @@ with open(neo4j_gen_file, 'a') as gen_file:
 
 with open(mongodb_gen_file, 'a') as gen_file:
 	gen_file.write(mongodb_query)
+
+	for artist_id in artist_tags:
+		gen_file.write(
+			'db.Artists.update('
+				'{_id:' + artist_id + '},'
+				'{$set:{tags:["' + '","'.join(artist_tags[artist_id]) + '"]}}'
+			');\n'
+		)
 
