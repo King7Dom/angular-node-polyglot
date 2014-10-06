@@ -4,7 +4,7 @@ var router = express.Router();
 var neo4j = require('neo4j-js');
 
 router.get('/tag/:userID', function (req, res) {
-	userID = parseInt(req.param('userID'));
+	var userID = parseInt(req.param('userID'));
 
 	var query = [
 		"MATCH (:User{id:{id}})-[queryTag:TAGGED]->(:Artist)",
