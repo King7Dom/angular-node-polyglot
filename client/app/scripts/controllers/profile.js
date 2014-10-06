@@ -14,15 +14,14 @@ app.controller('ProfileCtrl', function ($scope) {
 });
 
 app.controller('TagRecommendCtrl', function ($scope, $http, $routeParams){
-	// Make the request to the server ... which doesn't exist just yet
-			var request = $http.get('/api/recommend/'+$routeParams.userID);
- 
-			// we'll come back to here and fill in more when ready
-			request.success(function (data) {
-				// to be filled in on success
-			});
- 
-			request.error(function (data) {
-				// to be filled in on error
-			});
+	
+	var request = $http.get('/api/recommend/tag/'+$routeParams.userID);
+
+	request.success(function (data) {
+		console.log(data.msg);
+	});
+
+	request.error(function (data) {
+		console.log(data.msg);
+	});
 });
