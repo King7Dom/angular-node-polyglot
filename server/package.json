@@ -12,6 +12,7 @@
     "debug": "~0.7.4",
     "express": "~4.2.0",
     "http-status": "^0.1.8",
+    "mongoose": "^3.8.17",
     "morgan": "~1.0.0",
     "neo4j-js": "0.0.8",
     "static-favicon": "~1.0.0"
