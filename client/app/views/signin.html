@@ -1,0 +1,32 @@
+<div>
+	<div class="col-md-12">
+		<h3>Sign in:</h3>
+		<hr>
+		<br>
+	</div>
+ 
+	<div class="signin-form">
+		
+		<form class="form-horizontal">
+ 
+		<!-- Text input-->
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="userID">User ID</label>  
+			<div class="col-md-5">
+			<input id="userID" name="firstname" ng-model="userID" type="number" placeholder="2" class="form-control input-md" min="2" max="2100" step="1">
+				
+			</div>
+		</div>
+
+		<!-- Button -->
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="signup"></label>
+			<div class="col-md-5">
+				<button ng-click="login(userID)" id="signin" name="signin" class="btn btn-success btn-block">Sign In!</button>
+			</div>
+		</div>
+
+		</form>
+	</div>
+ 
+</div>

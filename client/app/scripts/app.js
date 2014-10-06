@@ -13,7 +13,8 @@ angular
     'ngAnimate',
     'ngResource',
     'ngRoute',
-    'ngSanitize'
+    'ngSanitize',
+    'appServices'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -24,6 +25,14 @@ angular
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
+      })
+      .when('/signin', {
+        templateUrl: 'views/signin.html',
+        controller: 'SigninCtrl'
+      })
+      .when('/profile', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl'
       })
       .otherwise({
         redirectTo: '/'
