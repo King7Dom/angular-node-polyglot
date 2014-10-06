@@ -54,12 +54,6 @@ with open('hetrec2011-lastfm-2k/user_artists.tsv', 'r') as listen_file:
 			'CREATE UNIQUE (u)-[:LISTENS_TO{count:'+ listen_count +'}]->(a);\n'
 		)
 
-	with open(neo4j_gen_file, 'a') as gen_file:
-		for user in users:
-			gen_file.write('CREATE (:User{id:' + user + '});\n')
-
-		gen_file.write(query)
-
 # Generate CREATE queries for FRIENDS relations
 with open('hetrec2011-lastfm-2k/user_friends.tsv', 'r') as friends_file:
 	print 'Creating queries for FRIENDS relation...'
@@ -73,6 +67,8 @@ with open('hetrec2011-lastfm-2k/user_friends.tsv', 'r') as friends_file:
 
 		query += (
 			'MATCH (u:User{id:' + user_id + '}),(f:User{id:' + friend_id + '}) '
+			'USING INDEX u:User(id) '
+			'USING INDEX f:User(id) '
 			'CREATE UNIQUE (u)-[:FRIENDS]-(f);\n'
 		)
 
