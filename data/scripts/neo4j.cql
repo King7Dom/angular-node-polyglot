@@ -10,15 +10,15 @@ RETURN listen.count;
 
 // Specify other users as friend
 MATCH (user:User {id: }), (friend:User {id: })
-CREATE UNIQUE (user)-[r:FRIENDS]-(friend);
+CREATE UNIQUE (user)-[:FRIENDS]-(friend);
 
 // Find friends of user by id
-MATCH (:User {id: })-[:FRIENDS]-(friend)
-RETURN friend.id, friend.name;
+MATCH (:User {id: })-[:FRIENDS]-(friend:User)
+RETURN friend.id;
 
 // Assign tags to any artist by users
 MATCH (user:User {id: }), (artist:Artist {id: })
-CREATE (user)-[:TAG {tag: tag, timestamp:time}]->(artist);
+CREATE (user)-[:TAGGED {tag: tag, timestamp:time}]->(artist);
 
 // Recommend artist base on listening count of friends
 MATCH (user:User {id: })-[:FRIENDS]-(friend:User)-[listen:LISTENS_TO]->(artist:Artist)
@@ -35,9 +35,9 @@ ORDER BY count(listen) DESC
 LIMIT 5
 
 // Recommend artist base on tags
-MATCH (:User {id: })-[queryTag:TAG]->(:Artist)
+MATCH (:User {id: })-[queryTag:TAGGED]->(:Artist)
 WITH queryTag.tag AS userTag LIMIT 1
-MATCH (user:User)-[artistTag:TAG]->(artist:Artist)
+MATCH (user:User)-[artistTag:TAGGED]->(artist:Artist)
 WHERE artistTag.tag = userTag AND NOT (:User {id: })-[:LISTENS_TO]->(artist)
 WITH artist, artistTag.tag AS resultTag
 MATCH (:User)-[listen:LISTENS_TO]->(artist)
