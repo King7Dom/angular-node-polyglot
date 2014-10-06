@@ -1,5 +1,7 @@
-# Clear gen_file
-with open('mongodb-gen.js', 'w') as gen_file:
+mongodb_gen_file = 'mongodb-gen.js'
+
+# Setup gen_file
+with open(mongodb_gen_file, 'w') as gen_file:
 	print 'Cleared mongdb-gen.js'
 	gen_file.write(
 		'db.artists.remove({});\n'
@@ -16,7 +18,7 @@ with open('hetrec2011-lastfm-2k/artists.tsv', 'r') as artist_file:
 		artist_url = text[2].strip()
 		artist_pic_url = text[3].strip()
 
-		with open('mongodb-gen.js', 'a') as gen_file:
+		with open(mongodb_gen_file, 'a') as gen_file:
 			gen_file.write(
 				'db.artists.save({'
 					'_id:' + artist_id + ','
@@ -34,7 +36,7 @@ with open('hetrec2011-lastfm-2k/user_artists.tsv', 'r') as listen_file:
 		artist_id = text[1].strip()
 		listen_count = text[2].strip()
 
-		with open('mongodb-gen.js', 'a') as gen_file:
+		with open(mongodb_gen_file, 'a') as gen_file:
 			gen_file.write(
 				'db.users.update('
 					'{_id:' + user_id + '},'
