@@ -10,7 +10,8 @@ var artistSchema = new Schema({
 	_id: Number,
 	name: String,
 	url: String,
-	pictureUrl: String
+	pictureUrl: String,
+	tags: Array
 }, {
 	collection: 'Artists'
 });
