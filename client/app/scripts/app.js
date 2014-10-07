@@ -34,6 +34,10 @@ angular
         templateUrl: 'views/profile.html',
         controller: 'ProfileCtrl'
       })
+      .when('/artist/:artistID', {
+        templateUrl: 'views/artistprofile.html',
+        controller: 'ArtistprofileCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

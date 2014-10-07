@@ -13,7 +13,7 @@ router.get('/tag/:userID', function (req, res) {
 		"WHERE artistTag.tag = userTag AND NOT (:User {id:{id}})-[:LISTENS_TO]->(artist)",
 		"WITH artist, artistTag.tag AS resultTag",
 		"MATCH (:User)-[listen:LISTENS_TO]->(artist)",
-		"RETURN artist.id AS id, artist.name AS name, resultTag, count(listen) AS Unique_Listener",
+		"RETURN artist.id AS id, artist.name AS name, resultTag, count(listen) AS uniqueListener",
 		"ORDER BY count(listen) DESC LIMIT 5"
 	];
 

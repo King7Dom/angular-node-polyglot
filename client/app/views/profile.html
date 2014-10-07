@@ -1,59 +1,67 @@
-<div class="panel panel-default" ng-controller="TagRecommendCtrl">
-	<div class="panel-heading">
-		<h3 class="panel-title">Recommendations by your tags</h3>
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-xs-6 col-sm-4" ng-repeat="recommend in recommendList">
-		  		<a href="#/artist/{{recommend.id}}">
-		  		<div class="thumbnail">
-		      	<img data-src="holder.js/300x300" alt="...">
-		      	<div class="caption">
-		        		<h3>Name: {{recommend.name}}</h3>
-		        		<p>Unique Listener: {{recommend.Unique_Listener}}</p>
-		      	</div>
-		    	</div></a>
-		  	</div>
+<div class = "row">
+	<div class="col-md-4 col-xs-4 col-sm-4">
+		<div class="panel panel-default" ng-controller="TagRecommendCtrl">
+			<div class="panel-heading">
+				<h3 class="panel-title">Recommendations by your tags</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row" ng-repeat="row in rows">
+					<div class="col-md-6 col-xs-12" ng-repeat="recommend in row">
+				  		<a href="#/artist/{{recommend.id}}">
+				  		<div class="thumbnail">
+				      	<img ng-src={{recommend.pictureUrl}} alt="...">
+				      	<div class="caption">
+				        		<h3>Name: {{recommend.name}}</h3>
+				        		<p>Unique Listener: {{recommend.listener}}</p>
+				      	</div>
+				    	</div></a>
+				  	</div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="panel panel-default" ng-controller="CountRecommendCtrl">
-	<div class="panel-heading">
-		<h3 class="panel-title">A lot of your freinds are listening to:</h3>
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-xs-6 col-sm-4" ng-repeat="recommend in recommendList">
-		  		<a href="#/artist/{{recommend.id}}">
-		  		<div class="thumbnail">
-		      	<img data-src="holder.js/300x300" alt="...">
-		      	<div class="caption">
-		        		<h3>Name: {{recommend.name}}</h3>
-		        		<p>Number of friends listening: {{recommend.count}}</p>
-		      	</div>
-		    	</div></a>
-		  	</div>
+	<div class="col-md-4 col-xs-4 col-sm-4">
+		<div class="panel panel-default" ng-controller="CountRecommendCtrl">
+			<div class="panel-heading">
+				<h3 class="panel-title">A lot of your freinds are listening to:</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row" ng-repeat="row in rows">
+					<div class="col-md-6 col-xs-12" ng-repeat="recommend in row">
+				  		<a href="#/artist/{{recommend.id}}">
+				  		<div class="thumbnail">
+				      	<img ng-src={{recommend.pictureUrl}} alt="...">
+				      	<div class="caption">
+				        		<h3>Name: {{recommend.name}}</h3>
+				        		<p>Number of friends listening: {{recommend.count}}</p>
+				      	</div>
+				    	</div></a>
+				  	</div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="panel panel-default" ng-controller="SumRecommendCtrl">
-	<div class="panel-heading">
-		<h3 class="panel-title">Your friends love to listen to:</h3>
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-xs-6 col-sm-4" ng-repeat="recommend in recommendList">
-		  		<a href="#/artist/{{recommend.id}}">
-		  		<div class="thumbnail">
-		      	<img data-src="holder.js/300x300" alt="...">
-		      	<div class="caption">
-		        		<h3>Name: {{recommend.name}}</h3>
-		        		<p>Number of times your friends listen to this: {{recommend.sum}}</p>
-		      	</div>
-		    	</div></a>
-		  	</div>
+	<div class="col-md-4 col-xs-4 col-sm-4">
+		<div class="panel panel-default" ng-controller="SumRecommendCtrl">
+			<div class="panel-heading">
+				<h3 class="panel-title">Your friends love to listen to:</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row" ng-repeat="row in rows">
+					<div class="col-md-6 col-xs-12" ng-repeat="recommend in row">
+				  		<a href="#/artist/{{recommend.id}}">
+				  		<div class="thumbnail">
+				      	<img ng-src={{recommend.pictureUrl}} alt="...">
+				      	<div class="caption">
+				        		<h3>Name: {{recommend.name}}</h3>
+				        		<p>Number of times your friends have listened to this: {{recommend.sum}}</p>
+				      	</div>
+				    	</div></a>
+				  	</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
