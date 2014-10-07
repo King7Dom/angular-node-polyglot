@@ -1,1 +1,8 @@
-<p>This is the artistProfile view.</p>
+<div class="jumbotron">
+  <h1>{{artist.name}}</h1>
+  <p class="lead">
+    <img ng-src="{{artist.pictureUrl}}"><br>
+    Website: <a ng-href="{{artist.url}}">{{artist.url}}</a>
+  </p>
+  <span class="badge" ng-repeat="tag in artist.tags">{{tag}}&nbsp;</span>
+</div>

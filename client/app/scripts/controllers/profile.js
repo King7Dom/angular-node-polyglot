@@ -7,10 +7,50 @@
  * # ProfileCtrl
  * Controller of the clientApp
  */
-var app = angular.module('clientApp')
+var app = angular.module('clientApp');
 
-app.controller('ProfileCtrl', function ($scope) {
+app.controller('ProfileCtrl', function () {
 
+});
+
+app.controller('FriendsCtrl', function ($scope, $http, $routeParams) {
+
+	getFriend();
+
+	function getFriend() {
+		var request = $http.get('/api/friend/'+$routeParams.userID);
+
+		request.success(function (data) {
+			$scope.friends = data;
+		});
+
+		request.error(function (data) {
+			console.log(data.message);
+		});
+	};
+
+	$scope.addFriend = function () {
+		console.log('FriendID: ' + $scope.friendID);
+		if ($scope.friendID) {
+			var addFriendRequest = $http.post('/api/friend/add', 
+				{'userID':$routeParams.userID, 
+				'friendID':$scope.friendID}
+			);
+
+			addFriendRequest.success(function (data) {
+				console.log(data.message);
+				getFriend();
+
+			});
+			addFriendRequest.error(function (data) {
+				console.log(data.message);
+			})
+		}
+		else {
+			alert('There is no friendID!');
+			return false;
+		}
+	};
 });
 
 app.controller('TagRecommendCtrl', function ($scope, $http, $routeParams){
@@ -19,8 +59,8 @@ app.controller('TagRecommendCtrl', function ($scope, $http, $routeParams){
 
 	request.success(function (data) {
 		console.log(data);
-		var dataRows = new Array();
-		var listener = new Array();
+		var dataRows = [];
+		var listener = [];
 		$scope.rows = dataRows;
 
 		if (data.length) {
@@ -30,6 +70,7 @@ app.controller('TagRecommendCtrl', function ($scope, $http, $routeParams){
 
 				artistRequest
 				.success(function (artistData) {
+					console.log(artistData);
 					artistData.listener = listener[artistData._id];
 					if (dataRows.length === 0) {
 						dataRows.push([artistData]);
@@ -60,8 +101,8 @@ app.controller('CountRecommendCtrl', function ($scope, $http, $routeParams){
 
 	request.success(function (data) {
 		console.log(data);
-		var dataRows = new Array();
-		var count = new Array();
+		var dataRows = [];
+		var count = [];
 		$scope.rows = dataRows;
 
 		if (data.length) {
@@ -100,8 +141,8 @@ app.controller('SumRecommendCtrl', function ($scope, $http, $routeParams){
 
 	request.success(function (data) {
 		console.log(data);
-		var dataRows = new Array();
-		var sum = new Array();
+		var dataRows = [];
+		var sum = [];
 		$scope.rows = dataRows;
 
 		if (data.length) {

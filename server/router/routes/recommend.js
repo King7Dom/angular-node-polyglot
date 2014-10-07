@@ -48,7 +48,7 @@ router.get('/tag/:userID', function (req, res) {
 });
 
 router.get('/count/:userID', function (req, res) {
-	userID = parseInt(req.param('userID'));
+	var userID = parseInt(req.param('userID'));
 
 	var query = [
 		"MATCH (user:User {id: {id}})-[:FRIENDS]-(friend:User)-[listen:LISTENS_TO]->(artist:Artist)",
@@ -88,7 +88,7 @@ router.get('/count/:userID', function (req, res) {
 });
 
 router.get('/sum/:userID', function (req, res) {
-	userID = parseInt(req.param('userID'));
+	var userID = parseInt(req.param('userID'));
 
 	var query = [
 		"MATCH (user:User {id: {id}})-[:FRIENDS]-(friend:User)-[listen:LISTENS_TO]->(artist:Artist)",

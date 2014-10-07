@@ -11,7 +11,7 @@ var Artists = db.artists;
 router.get('/:artistID', function (req, res) {
 	var artistID = parseInt(req.param('artistID'));
 
-	Artists.findOne({'_id': artistID}, {lean:true}, function (err, artist) {
+	Artists.findOne({'_id': artistID}, function (err, artist) {
 		if (err) {
 			console.log('Couldn\'t connect to mongodb because of: ' + err);
 
