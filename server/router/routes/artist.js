@@ -124,10 +124,48 @@ router.post('/tag', function (req, res) {
 		}
 
 	});
-
-
-
 });
 
+router.post('/listen', function (req, res) {
+	var artistID = Number(req.body.artistID);
+	var userID = Number(req.body.userID);
+
+	var query = [
+		"MATCH (user:User {id: {userID}}), (artist:Artist {id: {artistID}})",
+		"CREATE UNIQUE (user)-[listen:LISTENS_TO]->(artist)",
+		"SET listen.count = coalesce(listen.count, 0) + 1",
+		"RETURN listen.count AS listeningCount;"
+	];
+
+	neo4j.connect('http://localhost:7474/db/data/', function (err, graph) {
+		if (err) {
+			console.log('Couldn\'t connect to neo4j because of: ' + err);
+
+			// send the error
+			res.status(500).json({
+				'message': 'Internal server error.'
+			});
+		}
+		if (graph) {
+			graph.query(query.join('\n'), 
+				{ userID: userID, artistID:artistID }, 
+				function (err, results) {
+					if (err) {
+						console.log(err);
+						console.log(err.stack);
+						// send the error
+						res.status(500).json({
+							'message': 'Error executing Neo4j query.'
+						});
+					}
+					if (results) {
+						console.log(JSON.stringify(results, null, 5));
+						res.status(200).json(results);
+					}
+				}
+			);
+		}
+	});
+});
 
 module.exports = router;

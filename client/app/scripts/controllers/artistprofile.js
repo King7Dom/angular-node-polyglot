@@ -7,11 +7,12 @@
  * # ArtistprofileCtrl
  * Controller of the clientApp
  */
-var app = angular.module('clientApp')
+var app = angular.module('clientApp');
 
 app.controller('ArtistprofileCtrl', function ($scope, $http, $routeParams, User) {
 
 	getArtist();
+	$scope.listenCount = null;
 
 	function getArtist() {
 		var request = $http.get('/api/artist/'+$routeParams.artistID);
@@ -27,9 +28,6 @@ app.controller('ArtistprofileCtrl', function ($scope, $http, $routeParams, User)
 
 	$scope.addTag = function () {
 		if ($scope.tagName) {
-			console.log('Artist: '+ $routeParams.artistID);
-			console.log('Tag: ' + $scope.tagName);
-			console.log('User: ' + User.get());
 			var addTagRequest = $http.post('/api/artist/tag', 
 				{ 'userID': User.get(), 'artistID': $routeParams.artistID, 'tagName': $scope.tagName }
 			);
@@ -49,7 +47,22 @@ app.controller('ArtistprofileCtrl', function ($scope, $http, $routeParams, User)
 			alert('No tag given!');
 			return false;
 		}
-	}
+	};
+
+	$scope.listen = function () {
+		var listenRequest = $http.post('/api/artist/listen',
+			{ 'userID': User.get(), 'artistID': $routeParams.artistID}
+		);
+
+		listenRequest.success(function (data) {
+			console.log(data);
+			$scope.listenCount = data[0].listeningCount;
+		});
+
+		listenRequest.error(function (data) {
+			console.log(data.message);
+		})
+	};
 	
 
 });
