@@ -20,7 +20,6 @@ if (!db.users.findAndModify({
 	);
 }
 
-
 /**
 * Adding a friend
 * adding friendID to the user document's friendID array,
@@ -120,10 +119,10 @@ if (user) {
 		{ $match: { 'listen.artistID': { $nin: user.listen } } },
 		{ $group: {
 			_id: '$listen.artistID',
-			count: { $sum: 1 }
+			sum: { $sum: 1 }
 		} },
-		{ $project: { _id: 0, artistID: '$_id', count: 1} },
-		{ $sort: { count: -1 }},
+		{ $project: { _id: 0, artistID: '$_id', sum: 1} },
+		{ $sort: { sum: -1 }},
 		{ $limit: 5 }
 	])
 }
